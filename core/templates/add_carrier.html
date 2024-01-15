@@ -4,21 +4,21 @@
 {% load crispy_forms_tags %}
 <!-- StartPartial -->
 {% startpartial carrier-form %}
-<div class="row" id="carrier-form">
-    {% if message %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{message}}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endif %}
-    <form hx-post="{% url 'add_carrier' %}" hx-target="#carrier-form" hx-swap="outerHTML">
-        {% crispy form %}
-    </form>
-
+{% if message %}
+<div id="div_id_message" class="alert alert-success alert-dismissible fade show" role="alert" hx-swap-oob="true">
+    {{message}}
 </div>
+{% else %}
+<div id="div_id_message" hx-swap-oob="true"></div>
+{% endif %}
+<form id="carrier-form" hx-post="{% url 'add_carrier' %}" hx-target="#carrier-form" hx-swap="outerHTML">
+    {% crispy form %}
+</form>
 {% endpartial %}
 <!-- EndPartial -->
 
 {% block content %}
-{% partial carrier-form %}
+<div class="row">
+    {% partial carrier-form %}
+</div>
 {% endblock %}
