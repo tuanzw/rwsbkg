@@ -169,3 +169,10 @@ Scripts/
 pyvenv.cfg
 *.log
 *.log*
+
+
+# ignore static files by python manage.py loadstatics
+/static/admin
+/static/debug*
+/static/django*
+
