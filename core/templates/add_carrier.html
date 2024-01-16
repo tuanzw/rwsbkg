@@ -2,23 +2,66 @@
 
 {% load partials %}
 {% load crispy_forms_tags %}
-<!-- StartPartial -->
+<!-- StartPartial carrier-form -->
 {% startpartial carrier-form %}
-{% if message %}
-<div id="div_id_message" class="alert alert-success alert-dismissible fade show" role="alert" hx-swap-oob="true">
-    {{message}}
-</div>
-{% else %}
-<div id="div_id_message" hx-swap-oob="true"></div>
-{% endif %}
-<form id="carrier-form" hx-post="{% url 'add_carrier' %}" hx-target="#carrier-form" hx-swap="outerHTML">
+<div id="div_id_message" role="alert" hx-swap-oob="true"></div>
+<form id="carrier-form" hx-post="{% url 'add_carrier' %}" hx-target="#table_id_carrier" hx-swap="beforeend"
+    hx-swap-oob="true">
     {% crispy form %}
 </form>
 {% endpartial %}
-<!-- EndPartial -->
+<!-- EndPartial carrier-form -->
+<!-- Startpartial carrier-row -->
+{% startpartial carrier-row %}
+<tr>
+    <th scope="row">{{carrier.id}}</th>
+    <td>{{carrier.carrier}}</td>
+    <td>{{carrier.name}}</td>
+    <td>{{carrier.address}}</td>
+    <td>{{carrier.active}}</td>
+</tr>
+{% endpartial %}
+<!-- Endpartial carrier-row -->
 
 {% block content %}
 <div class="row">
-    {% partial carrier-form %}
+    <div class="col-sm-5">
+        <h4>Add Carrier</h4>
+        <hr class="hr hr-blurry" />
+        {% partial carrier-form %}
+    </div>
+    <div class="col-sm-7">
+        <h4>List of Carriers</h4>
+        <hr class="hr hr-blurry" />
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Carrier</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Active</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="table_id_carrier">
+                {% for carrier in carriers %}
+                <tr>
+                    <th scope="row">{{carrier.id}}</th>
+                    <td>{{carrier.carrier}}</td>
+                    <td>{{carrier.name}}</td>
+                    <td>{{carrier.address}}</td>
+                    <td>{{carrier.active}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
+<script>
+    document.body.addEventListener("showMessage", function (evt) {
+        msg_elem = document.getElementById("div_id_message");
+        msg_elem.setAttribute("class", "alert alert-success");
+        msg_elem.innerHTML = evt.detail.value;
+    });
+</script>
 {% endblock %}

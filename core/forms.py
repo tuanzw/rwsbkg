@@ -15,18 +15,30 @@ class CarrierForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.add_input(Submit('submit', 'Submit'))
-        # self.helper.add_input(Button(name='clear', value='Clear', css_class='btn-secondary', **{'hx-on:click':'document.body.form.reset()'}))
     
     class Meta:
         model = Carrier
         fields = ('carrier', 'name', 'address')
         widgets = {
-            'carrier': forms.TextInput(attrs={'placeholder': 'Only alphaNumeric accepted!'}),
-            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
-            'address': forms.TextInput(attrs={'placeholder': 'Address'}),
+            'carrier': forms.TextInput(attrs={
+                'length': 20,
+                'placeholder': 'Only alphaNumeric accepted!',
+                'hx-get': reverse_lazy('check_carrier'),
+                'hx-trigger': 'keyup changed delay:500ms',
+                'hx-target': '#div_id_carrier',
+                'hx-swap': 'outerHTML',
+            }),
+            'name': forms.TextInput(attrs={
+                'length': 200,
+                'placeholder': 'Name'
+            }),
+            'address': forms.TextInput(attrs={
+                'length': 300,
+                'placeholder': 'Address'
+            }),
         }
     
-    def clear_carrier(self):
+    def clean_carrier(self):
         inputted_carrier = self.cleaned_data['carrier']
         validate_alphanumeric(inputted_carrier)
         return inputted_carrier
