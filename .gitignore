@@ -175,4 +175,5 @@ pyvenv.cfg
 /static/admin
 /static/debug*
 /static/django*
+/static/fontawesomefree*
 

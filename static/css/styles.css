@@ -1,0 +1,13 @@
+.hover:hover {
+ font-size: 1.1em;
+ cursor: pointer;
+}
+.hover-danger:hover {
+    color: red;
+}
+
+tr.htmx-swapping td {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+

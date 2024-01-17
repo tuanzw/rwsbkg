@@ -37,3 +37,8 @@ def add_carrier(request):
 def check_carrier(request):
     carrier_frm = CarrierForm(request.GET)
     return HttpResponse(as_crispy_field(carrier_frm['carrier']))
+
+def delete_carrier(request, id):
+    if request.method == 'DELETE':
+        Carrier.objects.filter(pk=id).delete()
+        return HttpResponse(status=200) #Empty content

@@ -18,7 +18,10 @@
     <td>{{carrier.carrier}}</td>
     <td>{{carrier.name}}</td>
     <td>{{carrier.address}}</td>
-    <td>{{carrier.active}}</td>
+    <td class="text-center"><span>{% if carrier.active %}<i class="bi bi-check-square"></i>
+            {% else %}<i class="bi bi-square-fill"></i>{% endif %}</span></td>
+    <td><span class="hover hover-danger" hx-delete="{% url 'delete_carrier' carrier.id %}"><i class="bi bi-trash3"></i>
+    </td>
 </tr>
 {% endpartial %}
 <!-- Endpartial carrier-row -->
@@ -41,27 +44,25 @@
                     <th scope="col">Name</th>
                     <th scope="col">Address</th>
                     <th scope="col">Active</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
-            <tbody class="table-group-divider" id="table_id_carrier">
+            <tbody class="table-group-divider" id="table_id_carrier" hx-confirm="Are you sure?" hx-target="closest tr"
+                hx-swap="outerHTML swap:1s">
                 {% for carrier in carriers %}
                 <tr>
                     <th scope="row">{{carrier.id}}</th>
                     <td>{{carrier.carrier}}</td>
                     <td>{{carrier.name}}</td>
                     <td>{{carrier.address}}</td>
-                    <td>{{carrier.active}}</td>
+                    <td class="text-center"><span>{% if carrier.active %}<i class="bi bi-check-square"></i>
+                            {% else %}<i class="bi bi-square-fill"></i>{%endif %}</span></td>
+                    <td><span class="hover hover-danger" hx-delete="{% url 'delete_carrier' carrier.id %}"><i
+                                class="bi bi-trash3"></i></span></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-<script>
-    document.body.addEventListener("showMessage", function (evt) {
-        msg_elem = document.getElementById("div_id_message");
-        msg_elem.setAttribute("class", "alert alert-success");
-        msg_elem.innerHTML = evt.detail.value;
-    });
-</script>
 {% endblock %}
