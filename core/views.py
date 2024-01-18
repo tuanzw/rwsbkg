@@ -17,26 +17,35 @@ def home(request):
     
 
 def add_carrier(request):
-    if request.method == 'GET':
+    if not request.htmx:
         carriers = Carrier.objects.all()
         context = {'form': CarrierForm(), 'carriers': carriers}
-        return render(request, 'add_carrier.html', context)
-    elif request.method == 'POST':
-        form = CarrierForm(request.POST)
-        if form.is_valid():
-            carrier = form.save()
-            message = f'{carrier.carrier} added successfully!'
-            context = {'carrier': carrier, 'message': message}
-            response = render(request, 'add_carrier.html#carrier-row', context)
-            return trigger_client_event(response, 'showMessage', message)
-         
-        context = {'form': form}
-        return render(request, 'add_carrier.html#carrier-form', context)
+        return render(request, 'carrier.html', context)
+    else:
+        if request.method == 'GET':
+            context = {'form': CarrierForm()}
+            return render(request, 'carrier.html#carrier-form', context)
+        elif request.method == 'POST':
+            form = CarrierForm(request.POST)
+            if form.is_valid():
+                carrier = form.save()
+                message = f'{carrier.carrier} added successfully!'
+                context = {'carrier': carrier, 'message': message}
+                response = render(request, 'carrier.html#carrier-row', context)
+                return trigger_client_event(response, 'on-success', message)
+            
+            context = {'form': form}
+            return render(request, 'carrier.html#carrier-form', context)
     
     
 def check_carrier(request):
     carrier_frm = CarrierForm(request.GET)
-    return HttpResponse(as_crispy_field(carrier_frm['carrier']))
+    response = HttpResponse(as_crispy_field(carrier_frm['carrier']))
+    if carrier_frm.has_error('carrier'):
+        return trigger_client_event(response, 'frm-has-errors')
+    return trigger_client_event(response, 'frm-no-errors')
+    
+    
 
 def delete_carrier(request, id):
     if request.method == 'DELETE':

@@ -14,7 +14,6 @@ class CarrierForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', 'Submit'))
     
     class Meta:
         model = Carrier
