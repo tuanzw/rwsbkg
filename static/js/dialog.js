@@ -2,8 +2,15 @@
     const modal = new bootstrap.Modal(document.getElementById("modal"))
 
     htmx.on("htmx:afterSwap", (e) => {
+        console.log(e.detail.target.id)
         if (e.detail.target.id == "dialog") {
             modal.show()
+        }
+    })
+    htmx.on("htmx:beforeSwap", (e) => {
+        console.log(e)
+        if (e.detail.target.id == "table_id_carrier") {
+            modal.hide()
         }
     })
     htmx.on("hidden.bs.modal", () => {
@@ -11,7 +18,7 @@
     })
     htmx.on("on-success", () => {
         console.log("on-success")
-        modal.hide()
+        // modal.hide()
     })
     htmx.on("frm-has-errors", () => {
         console.log("frm-has-errors")

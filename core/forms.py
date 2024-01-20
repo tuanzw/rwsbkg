@@ -12,6 +12,10 @@ from .validators import validate_alphanumeric
 class CarrierForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            self.fields['carrier'].disabled = True
+            
         self.helper = FormHelper(self)
         self.helper.form_tag = False
     
@@ -38,9 +42,13 @@ class CarrierForm(forms.ModelForm):
         }
     
     def clean_carrier(self):
-        inputted_carrier = self.cleaned_data['carrier']
-        validate_alphanumeric(inputted_carrier)
-        return inputted_carrier
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            return instance.carrier
+        else:
+            inputted_carrier = self.cleaned_data['carrier']
+            validate_alphanumeric(inputted_carrier)
+            return inputted_carrier
         
         
     def save(self, commit=True):
