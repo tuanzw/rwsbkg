@@ -169,6 +169,7 @@ Scripts/
 pyvenv.cfg
 *.log
 *.log*
+*.pem
 
 
 # ignore static files by python manage.py loadstatics
