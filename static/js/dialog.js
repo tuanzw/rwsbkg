@@ -1,5 +1,6 @@
 ;(function (){
     const modal = new bootstrap.Modal(document.getElementById("modal"))
+    const modal_id_array = ["table_id_carrier", "table_id_user"]
 
     htmx.on("htmx:afterSwap", (e) => {
         console.log(e.detail.target.id)
@@ -9,16 +10,16 @@
     })
     htmx.on("htmx:beforeSwap", (e) => {
         console.log(e)
-        if (e.detail.target.id == "table_id_carrier") {
-            modal.hide()
-        }
+        // if (modal_id_array.includes(e.detail.target.id)) {
+        //     modal.hide()
+        // }
     })
     htmx.on("hidden.bs.modal", () => {
         document.getElementById("dialog").innerHTML = ""
     })
     htmx.on("on-success", () => {
         console.log("on-success")
-        // modal.hide()
+        modal.hide()
     })
     htmx.on("frm-has-errors", () => {
         console.log("frm-has-errors")

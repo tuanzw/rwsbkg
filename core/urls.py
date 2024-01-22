@@ -10,4 +10,11 @@ urlpatterns = [
     path('list_carrier', views.list_carrier, name='list_carrier'),
     path('delete_carrier/<int:id>', views.delete_carrier, name='delete_carrier'),
     path('edit_carrier/<int:id>', views.edit_carrier, name='edit_carrier'),
+    # user feature
+    path('users', views.add_user, name='add_user'),
+    path('check_username', views.check_username, name='check_username'),
+    path('list_user', views.list_user, name='list_user'),
+    path('delete_user/<int:id>', views.delete_user, name='delete_user'),
+    path('edit_user/<int:id>', views.edit_user, name='edit_user'),
+    path('set_password/<int:id>', views.set_password, name='set_password'),
 ]
