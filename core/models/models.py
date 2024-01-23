@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractUser
 
-from .validators import defaut_date, validate_alphanumeric, validate_po
+from ..validators import defaut_date, validate_alphanumeric, validate_po
 
 
 
