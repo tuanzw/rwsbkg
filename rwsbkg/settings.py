@@ -147,3 +147,4 @@ AUTH_USER_MODEL = 'core.User'
 
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/login'
+LOGIN_URL = '/login'

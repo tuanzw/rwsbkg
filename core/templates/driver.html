@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% load partials %}
+{% load crispy_forms_tags %}
+<!-- StartPartial driver-form -->
+{% startpartial driver-form %}
+<div id="dialog" class="modal-dialog" hx-swap-oob="true">
+    <form id="driver-form" class="modal-content" hx-post="{{ request.path }}" hx-target="#table_id_driver"
+        hx-swap="beforeend">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Driver</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">{% crispy form %}</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btn-id-save">Save</button>
+        </div>
+    </form>
+</div>
+{% endpartial %}
+<!-- EndPartial driver-form -->
+<!-- Startpartial driver-rows -->
+{% startpartial driver-rows %}
+{% for driver in drivers %}
+<tr>
+    <th scope="row">{{driver.id}}</th>
+    <td>{{driver.fullname}}</td>
+    <td>{{driver.idcard}}</td>
+    <td>{{driver.license_valid_date}}</td>
+    <td class="text-center"><span>{% if driver.active %}<i class="bi bi-check-square"></i>
+            {% else %}<i class="bi bi-square-fill"></i>{% endif %}</span></td>
+    <!-- <td>{%for carrier in driver.carriers.all %} {{carrier.carrier}} {% endfor %}</td> -->
+    <!-- <td>{{ driver.carriers.all|join:"," }}</td> -->
+    <td>{{ driver.carrier}}</td>
+    {% if perms.core.add_driver %}
+    <td><span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-get="{% url 'edit_driver' driver.id %}" hx-target="#dialog">
+            <i class="bi bi-pencil-square"></i></span>
+    </td>
+    {% endif %}
+</tr>
+{% endfor %}
+{% endpartial %}
+<!-- Endpartial driver-rows -->
+
+{% block content %}
+
+{% if perms.core.add_driver %}
+<div class="row">
+    <div class="col-md-4 ps-0">
+        <button type="button" class="btn btn-primary" hx-get="{% url 'add_driver' %}" hx-target="#dialog">
+            Add Driver
+        </button>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    <table class="table table-striped table-hover caption-top">
+        <caption class="fs-4">Drivers</caption>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fullname</th>
+                <th scope="col">ID No.</th>
+                <th scope="col">License Valid Date</th>
+                <th scope="col" class="text-center">Active</th>
+                <th scope="col">Carrier</th>
+                {% if perms.core.add_driver %}
+                <th scope="col"></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody class="table-group-divider" id="table_id_driver" hx-get="{% url 'list_driver' %}"
+            hx-trigger="list-changed from:body" hx-target="this">
+            {% for driver in drivers %}
+            <tr>
+                <th scope="row">{{driver.id}}</th>
+                <td>{{driver.fullname}}</td>
+                <td>{{driver.idcard}}</td>
+                <td>{{driver.license_valid_date}}</td>
+                <td class="text-center"><span>{% if driver.active %}<i class="bi bi-check-square"></i>
+                        {% else %}<i class="bi bi-square-fill"></i>{%endif %}</span></td>
+                <!-- <td>{%for carrier in driver.carriers.all %} {{carrier.carrier}} {% endfor %}</td> -->
+                <!-- <td>{{ driver.carriers.all|join:"," }}</td> -->
+                <td>{{ driver.carrier }}</td>
+                {% if perms.core.add_driver %}
+                <!-- hx-target="#dialog" with hx-get method to load data for Edit Form Dialog  -->
+                <td><span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                        hx-get="{% url 'edit_driver' driver.id %}" hx-target="#dialog">
+                        <i class="bi bi-pencil-square"></i></span>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -43,6 +43,19 @@ class Carrier(models.Model):
         return f'Carrier: {self.id}_{self.carrier}'
 
 
+class Driver(models.Model):
+    fullname = models.CharField(max_length=100)
+    idcard = models.CharField(max_length=50)
+    license_valid_date = models.DateField()
+    active = models.BooleanField(default=True)
+    carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE, related_name='drivers')
+    
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['idcard', 'carrier'], name='unique_driver_carrier')]
+
+    def __str__(self):
+        return f'{self.fullname}_{self.idcard}'
+
 class User(AbstractUser):
     carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE, related_name='users', null=True, blank=True)
 

@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.contrib.auth.decorators import login_required, permission_required
 from crispy_forms.templatetags.crispy_forms_filters import as_crispy_field
 from django_htmx.http import trigger_client_event
 
@@ -7,13 +8,14 @@ import json
 from ..forms import UserForm, UserUpdateForm, SetUserPasswordForm
 from core.models import User
 
-
+@login_required()
 def list_user(request):
     if request.method == 'GET':
         users = User.objects.all().select_related('carrier')
         context = {'users': users}
         return render(request, 'user.html#user-rows', context)
-     
+
+@login_required
 def add_user(request):
     if not request.htmx:
         users = User.objects.all().select_related('carrier')
@@ -37,6 +39,7 @@ def add_user(request):
             context = {'form': form}
             return render(request, 'user.html#user-form', context)
 
+@login_required
 def edit_user(request, id):
     if request.method == 'GET':
         user = get_object_or_404(User, pk=id)
@@ -44,7 +47,6 @@ def edit_user(request, id):
         context = {'form': user_frm}
         return render(request, 'user.html#user-form', context)
     elif request.method == 'POST':
-        print(request.POST)
         user = get_object_or_404(User, pk=id)
         form = UserUpdateForm(request.POST, instance=user)
         if form.is_valid():
@@ -63,6 +65,8 @@ def edit_user(request, id):
         print(form.errors)
         context = {'form': form}
         return render(request, 'user.html#user-form', context)
+
+@login_required
 def delete_user(request, id):
     if request.method == 'DELETE':
         user = User.objects.filter(pk=id).first()

@@ -17,4 +17,8 @@ urlpatterns = [
     path('delete_user/<int:id>', views.delete_user, name='delete_user'),
     path('edit_user/<int:id>', views.edit_user, name='edit_user'),
     path('set_password/<int:id>', views.set_password, name='set_password'),
+    # driver feature
+    path('drivers', views.add_driver, name='add_driver'),
+    path('edit_driver/<int:id>', views.edit_driver, name='edit_driver'),
+    path('list_driver', views.list_driver, name='list_driver'),
 ]

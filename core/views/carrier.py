@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from crispy_forms.templatetags.crispy_forms_filters import as_crispy_field
 from django_htmx.http import trigger_client_event
 
@@ -7,6 +8,7 @@ import json
 from ..forms import CarrierForm
 from core.models import SlotTime, Vehicle, Carrier
 
+@login_required
 def home(request):
     slots = SlotTime.objects.all()
     vehicles = Vehicle.objects.all()
@@ -16,7 +18,7 @@ def home(request):
         context = {'slots':slots, 'vehicles':vehicles}
         return render(request, 'home.html', context)
     
-
+@login_required
 def add_carrier(request):
     if not request.htmx:
         carriers = Carrier.objects.all()
@@ -40,14 +42,14 @@ def add_carrier(request):
             context = {'form': form}
             return render(request, 'carrier.html#carrier-form', context)
 
-
+@login_required
 def list_carrier(request):
     if request.method == 'GET':
         carriers = Carrier.objects.all()
         context = {'carriers': carriers}
         return render(request, 'carrier.html#carrier-rows', context)
 
-
+@login_required
 def edit_carrier(request, id):
     if request.method == 'GET':
         carrier = get_object_or_404(Carrier, pk=id)
@@ -85,7 +87,7 @@ def check_carrier(request):
     return trigger_client_event(response, 'frm-no-errors')
     
     
-
+@login_required
 def delete_carrier(request, id):
     if request.method == 'DELETE':
         carrier = Carrier.objects.filter(pk=id).first()

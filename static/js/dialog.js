@@ -1,4 +1,4 @@
-;(function (){
+; (function () {
     const modal = new bootstrap.Modal(document.getElementById("modal"))
     const modal_id_array = ["table_id_carrier", "table_id_user"]
 
@@ -27,6 +27,11 @@
     })
     htmx.on("frm-no-errors", () => {
         console.log("frm-no-errors")
-        document.getElementById("btn-id-save").disabled =false
+        document.getElementById("btn-id-save").disabled = false
     })
+    // htmx.logger = function (elt, event, data) {
+    //     if (console) {
+    //         console.log(event, elt, data);
+    //     }
+    // }
 })()
