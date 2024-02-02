@@ -2,6 +2,12 @@
     const modal = new bootstrap.Modal(document.getElementById("modal"))
     const modal_id_array = ["table_id_carrier", "table_id_user"]
 
+    htmx.on("htmx:load", (e) => {
+        console.log("load", e)
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })
+
     htmx.on("htmx:afterSwap", (e) => {
         console.log(e.detail.target.id)
         if (e.detail.target.id == "dialog") {

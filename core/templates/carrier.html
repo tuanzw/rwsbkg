@@ -32,11 +32,12 @@
             {% else %}<i class="bi bi-square-fill"></i>{% endif %}</span></td>
     {% if perms.core.add_carrier %}
     <td><span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-            hx-get="{% url 'edit_carrier' carrier.id %}" hx-target="#dialog">
+            hx-get="{% url 'edit_carrier' carrier.id %}" hx-target="#dialog" data-bs-toggle="tooltip"
+            data-bs-title="Edit">
             <i class="bi bi-pencil-square"></i></span>
         <span id="icon-delete" class="hover hover-danger m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
             hx-delete="{% url 'delete_carrier' carrier.id %}" hx-confirm="Do you want to delete: {{carrier.carrier}}?"
-            hx-target="closest tr" hx-swap="outerHTML swap:1s">
+            hx-target="closest tr" hx-swap="outerHTML swap:1s" data-bs-toggle="tooltip" title="Delete">
             <i class="bi bi-trash3"></i></span>
 
     </td>
@@ -84,13 +85,14 @@
                 {% if perms.core.add_carrier %}
                 <!-- hx-target="#dialog" with hx-get method to load data for Edit Form Dialog  -->
                 <td><span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                        hx-get="{% url 'edit_carrier' carrier.id %}" hx-target="#dialog">
+                        hx-get="{% url 'edit_carrier' carrier.id %}" hx-target="#dialog" data-bs-toggle="tooltip"
+                        data-bs-title="Edit">
                         <i class="bi bi-pencil-square"></i></span>
                     <span id="icon-delete" class="hover hover-danger m-1"
                         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                         hx-delete="{% url 'delete_carrier' carrier.id %}"
                         hx-confirm="Do you want to delete: {{carrier.carrier}}?" hx-target="closest tr"
-                        hx-swap="outerHTML swap:1s">
+                        hx-swap="outerHTML swap:1s" data-bs-toggle="tooltip" title="Delete">
                         <i class="bi bi-trash3"></i></span>
                 </td>
                 {% endif %}

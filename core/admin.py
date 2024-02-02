@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Slot, Carrier, Vehicle, Order, Booking, SlotTime, User
+from .models import Slot, Carrier, Vehicle, Order, Booking, SlotTime, User, Driver
 
 
 # class CustomUserAdmin(UserAdmin):
@@ -28,3 +28,4 @@ admin.site.register(Vehicle)
 admin.site.register(Order)
 admin.site.register(Booking)
 admin.site.register(SlotTime)
+admin.site.register(Driver)

@@ -61,32 +61,31 @@ class User(AbstractUser):
 
 
 class Vehicle(models.Model):
-    class VehicleType(models.TextChoices):
-        BIKE = 'BK', 'Bike'
-        TRUCK = 'TK', 'Truck'
-        CONTAINER = 'CT', 'Container'
-        OTHER = 'OT', 'Other'
         
-    class LoadType(models.TextChoices):
+    class VehicleType(models.TextChoices):
         TRUCK1_5 = '1.5T', '1.5 Ton'
         TRUCK2_5 = '2.5T', '2.5 Ton'
-        TRUCK5 = '5T', '5 Ton'
+        TRUCK5_0 = '5.0T', '5 Ton'
         TRUCK10 = '10T', '10 Ton'
         CONT20 = '20FT', '20 Feet'
         CONT40 = '40FT', '40 Feet'
-        OTHER = 'OT', 'Other'
+        OTHER = 'OTHR', 'Other'
           
     registration_plate = models.CharField(unique=True, max_length=10, validators=[validate_alphanumeric])
-    vehicle_type = models.CharField(max_length=2, choices=VehicleType.choices)
-    load_type = models.CharField(max_length=4, choices=LoadType.choices)
+    vehicle_type = models.CharField(max_length=4, choices=VehicleType.choices)
     active = models.BooleanField(default=True)
     valid_until = models.DateField()
+    max_weight = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0,'Please input valid weight')])
+    max_cbm = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0,'Please input valid cbm')])
     carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE, related_name='vehicles')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     
     def __str__(self) -> str:
         return f'Vehicle: {self.registration_plate}'
+    
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['registration_plate', 'carrier'], name='unique_vehicle_carrier')]
     
     
 class Order(models.Model):

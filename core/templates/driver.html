@@ -35,7 +35,7 @@
     <td>{{ driver.carrier}}</td>
     {% if perms.core.add_driver %}
     <td><span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-            hx-get="{% url 'edit_driver' driver.id %}" hx-target="#dialog">
+            hx-get="{% url 'edit_driver' driver.id %}" hx-target="#dialog" data-bs-toggle="tooltip" title="Edit">
             <i class="bi bi-pencil-square"></i></span>
     </td>
     {% endif %}
@@ -87,7 +87,8 @@
                 {% if perms.core.add_driver %}
                 <!-- hx-target="#dialog" with hx-get method to load data for Edit Form Dialog  -->
                 <td><span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                        hx-get="{% url 'edit_driver' driver.id %}" hx-target="#dialog">
+                        hx-get="{% url 'edit_driver' driver.id %}" hx-target="#dialog" data-bs-toggle="tooltip"
+                        data-bs-title="Edit">
                         <i class="bi bi-pencil-square"></i></span>
                 </td>
                 {% endif %}

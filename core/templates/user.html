@@ -33,10 +33,11 @@
     <td>{{user.carrier.carrier}}</td>
     {% if perms.core.add_user %}
     <td><span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-get="{% url 'edit_user' user.id %}"
-            hx-target="#dialog">
+            hx-target="#dialog" data-bs-toggle="tooltip" title="Edit">
             <i class="bi bi-pencil-square"></i></span>
         <span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-            hx-get="{% url 'set_password' user.id %}" hx-target="#dialog">
+            hx-get="{% url 'set_password' user.id %}" hx-target="#dialog" data-bs-toggle="tooltip"
+            title="Change Password">
             <i class="bi bi-key"></i></span>
     </td>
     {% endif %}
@@ -86,10 +87,12 @@
                 {% if perms.core.add_user %}
                 <!-- hx-target="#dialog" with hx-get method to load data for Edit Form Dialog  -->
                 <td><span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                        hx-get="{% url 'edit_user' user.id %}" hx-target="#dialog">
+                        hx-get="{% url 'edit_user' user.id %}" hx-target="#dialog" data-bs-toggle="tooltip"
+                        data-bs-title="Edit">
                         <i class="bi bi-pencil-square"></i></span>
                     <span class="hover m-1" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                        hx-get="{% url 'set_password' user.id %}" hx-target="#dialog">
+                        hx-get="{% url 'set_password' user.id %}" hx-target="#dialog" data-bs-toggle="tooltip"
+                        title="Change Password">
                         <i class="bi bi-key"></i></span>
                 </td>
                 {% endif %}

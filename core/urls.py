@@ -21,4 +21,9 @@ urlpatterns = [
     path('drivers', views.add_driver, name='add_driver'),
     path('edit_driver/<int:id>', views.edit_driver, name='edit_driver'),
     path('list_driver', views.list_driver, name='list_driver'),
+    # vehicle feature
+    path('vehicles', views.add_vehicle, name='add_vehicle'),
+    path('edit_vehicle/<int:id>', views.edit_vehicle, name='edit_vehicle'),
+    path('list_vehicle', views.list_vehicle, name='list_vehicle'),
+    path('toggle_vehicle/<int:id>', views.toggle_vehicle, name='toggle_vehicle'),
 ]
